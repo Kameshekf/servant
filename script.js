@@ -1,7 +1,5 @@
 // === НАСТРОЙКИ ===
-const SHOP_ID = '130476'; // Твой ID магазина
-// Впиши сюда свой адрес из настроек EasyDonate (например 'servant.easydonate.ru')
-const SHOP_DOMAIN = 'servant.easydonate.ru'; 
+const SHOP_DOMAIN = 'servant.easydonate.ru'; // Твой подтвержденный адрес
 
 let currentItemId = null; // Переменная для хранения выбранного товара
 
@@ -10,13 +8,11 @@ function buy(itemId) {
     const usernameInput = document.getElementById('username');
     const nick = usernameInput.value.trim();
 
-    // Если ник не введен — трясем поле
     if (!nick) {
         shakeInput();
         return;
     }
 
-    // Запоминаем товар и открываем окно ввода почты
     currentItemId = itemId;
     openModal();
 }
@@ -27,30 +23,45 @@ function buyUnban() {
     buy(select.value);
 }
 
-// === 2. ПОДТВЕРЖДЕНИЕ В МОДАЛКЕ (ОПЛАТИТЬ) ===
+// === 2. ГЛАВНАЯ ФУНКЦИЯ ОПЛАТЫ (ЧЕРЕЗ ФОРМУ) ===
 function confirmPurchase() {
     const emailInput = document.getElementById('user-email');
     const email = emailInput.value.trim();
     const nick = document.getElementById('username').value.trim();
 
-    // Простая проверка почты
     if (!email || !email.includes('@')) {
         emailInput.parentElement.style.borderColor = '#ffb4ab';
         return;
     }
 
-    // === ФОРМИРУЕМ ПРЯМУЮ ССЫЛКУ НА ОПЛАТУ ===
-    // Эта ссылка ведет сразу в "чекаут" (оформление заказа) вашего магазина.
-    // Мы передаем ник, почту и ID товара.
-    
-    // Если у вас не настроен поддомен, используйте адрес через основной сайт:
-    // const finalUrl = `https://easydonate.ru/pay/${SHOP_ID}?username=${nick}&email=${email}&products[${currentItemId}]=1`;
-    
-    // Но лучше и надежнее использовать ваш поддомен магазина:
-    const finalUrl = `https://${SHOP_DOMAIN}/checkout?customer=${nick}&email=${email}&products[${currentItemId}]=1`;
+    // === СОЗДАЕМ НЕВИДИМУЮ ФОРМУ ДЛЯ ПЕРЕХОДА НА ОПЛАТУ ===
+    // Это имитирует нажатие кнопки на самом сайте EasyDonate
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `https://${SHOP_DOMAIN}/payment/start`;
+    form.style.display = 'none';
 
-    // Перенаправляем игрока СРАЗУ на страницу подтверждения и выбора способа оплаты
-    window.location.href = finalUrl;
+    // Добавляем ник
+    const customerInput = document.createElement('input');
+    customerInput.name = 'customer';
+    customerInput.value = nick;
+    form.appendChild(customerInput);
+
+    // Добавляем почту
+    const emailField = document.createElement('input');
+    emailField.name = 'email';
+    emailField.value = email;
+    form.appendChild(emailField);
+
+    // Добавляем товар (ID и количество)
+    const productInput = document.createElement('input');
+    productInput.name = `products[${currentItemId}]`;
+    productInput.value = '1';
+    form.appendChild(productInput);
+
+    // Отправляем форму
+    document.body.appendChild(form);
+    form.submit();
 }
 
 // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
@@ -81,7 +92,7 @@ document.getElementById('email-modal').addEventListener('click', (e) => {
     }
 });
 
-// Анимация появления элементов при скролле
+// Анимация карточек
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
