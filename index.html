@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERVANT | Магазин</title>
+    <!-- Шрифты и Иконки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Фоновый эффект -->
+    <div class="aurora-bg"></div>
+
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="logo">SERVANT</div>
+        <div class="nav-links">
+            <a href="http://servant-ru.online:25480" target="_blank">Карта</a>
+            <a href="#" class="active">Магазин</a>
+        </div>
+    </nav>
+
+    <!-- Главный блок -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Твоя игра. <br><span class="gradient-text">Твои правила.</span></h1>
+            <p>Официальный магазин сервера. Покупай честно, играй красиво.</p>
+            
+            <div class="input-container">
+                <span class="material-symbols-rounded icon">person</span>
+                <input type="text" id="username" placeholder=" " required>
+                <label for="username">Ваш никнейм</label>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- СЕКЦИЯ 1: ПРИВИЛЕГИИ -->
+        <div class="section-header">
+            <span class="material-symbols-rounded">diamond</span>
+            <h2>Привилегии</h2>
+        </div>
+
+        <div class="grid">
+            <!-- Servant+ -->
+            <div class="card primary-card">
+                <div class="card-image">
+                    <span class="material-symbols-rounded">verified</span>
+                </div>
+                <div class="card-content">
+                    <h3>Servant+</h3>
+                    <p>Доступ к /size, /head, /hat, безлимитный /co i и /co near, /itemname и /itemlore на 30 дней.</p>
+                    <div class="price-tag">100 ₽</div>
+                    <!-- ID ТОВАРА SERVANT -->
+                    <button class="btn-filled" onclick="buy(1042082)">Купить</button>
+                </div>
+            </div>
+
+            <!-- Проходка -->
+            <div class="card surface-card">
+                <div class="card-image">
+                    <span class="material-symbols-rounded">vpn_key</span>
+                </div>
+                <div class="card-content">
+                    <h3>Проходка</h3>
+                    <p>Доступ к WhiteList навсегда. Вход на сервер.</p>
+                    <div class="price-tag">50 ₽</div>
+                    <!-- ВСТАВЬ СЮДА ID ПРОХОДКИ -->
+                    <button class="btn-tonal" onclick="buy(104083)">Купить</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- СЕКЦИЯ 2: РАЗБАН (С МЕНЮ) -->
+        <div class="section-header error-header">
+            <span class="material-symbols-rounded">gavel</span>
+            <h2>Система Разбана</h2>
+        </div>
+
+        <div class="alert-box">
+            <span class="material-symbols-rounded">warning</span>
+            <div>
+                <strong>Внимание: Честность или Штраф</strong>
+                <p>Выберите номер бана, который соответствует вашей истории нарушений. Если вы купите разбан "для 1-го раза", а у вас это 3-й бан — деньги сгорят, разбана не будет.</p>
+            </div>
+        </div>
+
+        <!-- КАРТОЧКА С ВЫБОРОМ -->
+        <div class="card surface-card wide-card">
+            <div class="wide-content">
+                <div class="text-part">
+                    <h3>Снятие блокировки</h3>
+                    <p>Выберите, какой по счету у вас бан:</p>
+                </div>
+                
+                <div class="action-part">
+                    <!-- ВЫПАДАЮЩИЙ СПИСОК -->
+                    <div class="select-wrapper">
+                        <select id="ban-select">
+                            <!-- ЗАМЕНИ value="ЦИФРЫ" НА РЕАЛЬНЫЕ ID ТОВАРОВ РАЗБАНА -->
+                            <option value="104086">1-й или 2-й бан (200 ₽)</option>
+                            <option value="104086">3-й бан (300 ₽)</option>
+                            <option value="1042087">4-й бан (400 ₽)</option>
+                            <option value="1042088">5-й бан (500 ₽)</option>
+                            <option value="1042089">6-й бан (600 ₽)</option>
+                        </select>
+                        <span class="material-symbols-rounded select-arrow">expand_more</span>
+                    </div>
+
+                    <button class="btn-outlined" onclick="buyUnban()">Оплатить разбан</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ОТДЕЛЬНО: ОТКАТ -->
+        <div class="section-header">
+            <span class="material-symbols-rounded">history</span>
+            <h2>Дополнительно</h2>
+        </div>
+
+        <div class="card surface-card">
+            <div class="card-content row-content">
+                <div>
+                    <h3>Откат инвентаря</h3>
+                    <p>Ручная выдача модератором после проверки.</p>
+                </div>
+                <div class="right-side">
+                    <div class="price-tag small">150 ₽</div>
+                    <!-- ВСТАВЬ СЮДА ID ОТКАТА -->
+                    <button class="btn-tonal" onclick="buy(1042084)">Купить</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SERVANT. Все права защищены.</p>
+    </footer>
+
+    <!-- МОДАЛЬНОЕ ОКНО ДЛЯ EMAIL (СКРЫТО) -->
+    <div id="email-modal" class="modal-overlay">
+        <div class="modal-window">
+            <span class="material-symbols-rounded modal-icon">mail</span>
+            <h3>Почти готово</h3>
+            <p>Введите Email для получения чека (требование кассы).</p>
+            
+            <div class="input-container modal-input">
+                <input type="email" id="user-email" placeholder=" " required>
+                <label for="user-email">Ваш Email</label>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-outlined" onclick="closeModal()">Отмена</button>
+                <button class="btn-filled" onclick="confirmPurchase()">Оплатить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
